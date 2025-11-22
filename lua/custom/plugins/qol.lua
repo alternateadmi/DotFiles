@@ -1,261 +1,362 @@
 -- Quality of Life Keymaps for Neovim
+-- Organized into clean groups - no clutter!
 
 -- ============================================
--- FILE OPERATIONS
+-- FILE OPERATIONS (Space + f + ...)
 -- ============================================
 
--- Save file (Space + w like "write")
-vim.keymap.set('n', '<leader>w', ':write<CR>', {
-  desc = '[W]rite (save) file',
+-- Save file
+vim.keymap.set('n', '<leader>fw', ':write<CR>', {
+  desc = '[F]ile [w]rite (save)',
   silent = true,
 })
 
--- Save all files (Space + W)
-vim.keymap.set('n', '<leader>W', ':wall<CR>', {
-  desc = '[W]rite all files',
+-- Save all files
+vim.keymap.set('n', '<leader>fW', ':wall<CR>', {
+  desc = '[F]ile [W]rite all',
   silent = true,
 })
 
--- Quit (Space + q)
-vim.keymap.set('n', '<leader>q', ':quit<CR>', {
-  desc = '[Q]uit window',
+-- Close buffer
+vim.keymap.set('n', '<leader>fc', ':bdelete<CR>', {
+  desc = '[F]ile [c]lose buffer',
   silent = true,
 })
 
--- Quit all (Space + Q)
-vim.keymap.set('n', '<leader>Q', ':quitall<CR>', {
-  desc = '[Q]uit all windows',
+-- Quit window
+vim.keymap.set('n', '<leader>fq', ':quit<CR>', {
+  desc = '[F]ile [q]uit window',
   silent = true,
 })
 
--- Save and quit (Space + x like "exit")
-vim.keymap.set('n', '<leader>x', ':wq<CR>', {
-  desc = 'Save and e[x]it',
+-- Quit all
+vim.keymap.set('n', '<leader>fQ', ':quitall<CR>', {
+  desc = '[F]ile [Q]uit all',
   silent = true,
 })
 
--- Force quit without saving (Space + !)
-vim.keymap.set('n', '<leader>!', ':q!<CR>', {
-  desc = 'Force quit (no save)',
+-- Save and quit
+vim.keymap.set('n', '<leader>fx', ':wq<CR>', {
+  desc = '[F]ile save and e[x]it',
   silent = true,
 })
 
--- Close buffer but keep window (Space + c)
-vim.keymap.set('n', '<leader>c', ':bdelete<CR>', {
-  desc = '[C]lose buffer',
-  silent = true,
-})
-
--- ============================================
--- BUFFER NAVIGATION (TAB-LIKE)
--- ============================================
-
--- Next buffer (like next tab) - Tab key
-vim.keymap.set('n', '<Tab>', ':bnext<CR>', {
-  desc = 'Next buffer',
-  silent = true,
-})
-
--- Previous buffer - Shift+Tab
-vim.keymap.set('n', '<S-Tab>', ':bprevious<CR>', {
-  desc = 'Previous buffer',
+-- Source current file
+vim.keymap.set('n', '<leader>fs', ':source %<CR>', {
+  desc = '[F]ile [s]ource (reload)',
   silent = true,
 })
 
 -- ============================================
--- BETTER INDENTING
+-- BUFFER NAVIGATION (Space + b + ...)
 -- ============================================
 
--- Stay in visual mode after indenting
-vim.keymap.set('v', '<', '<gv', { desc = 'Indent left (stay in visual)' })
-vim.keymap.set('v', '>', '>gv', { desc = 'Indent right (stay in visual)' })
-
--- ============================================
--- MOVING LINES UP/DOWN
--- ============================================
-
--- Move line up in normal mode (Alt+k)
-vim.keymap.set('n', '<A-k>', ':move .-2<CR>==', {
-  desc = 'Move line up',
+-- Next buffer
+vim.keymap.set('n', '<leader>bn', ':bnext<CR>', {
+  desc = '[B]uffer [n]ext',
   silent = true,
 })
 
--- Move line down in normal mode (Alt+j)
-vim.keymap.set('n', '<A-j>', ':move .+1<CR>==', {
-  desc = 'Move line down',
+-- Previous buffer
+vim.keymap.set('n', '<leader>bp', ':bprevious<CR>', {
+  desc = '[B]uffer [p]revious',
   silent = true,
 })
 
--- Move selected lines up in visual mode (Alt+k)
-vim.keymap.set('v', '<A-k>', ":move '<-2<CR>gv=gv", {
-  desc = 'Move selection up',
+-- First buffer
+vim.keymap.set('n', '<leader>bf', ':bfirst<CR>', {
+  desc = '[B]uffer [f]irst',
   silent = true,
 })
 
--- Move selected lines down in visual mode (Alt+j)
-vim.keymap.set('v', '<A-j>', ":move '>+1<CR>gv=gv", {
-  desc = 'Move selection down',
+-- Last buffer
+vim.keymap.set('n', '<leader>bl', ':blast<CR>', {
+  desc = '[B]uffer [l]ast',
+  silent = true,
+})
+
+-- Close buffer (duplicate for convenience)
+vim.keymap.set('n', '<leader>bc', ':bdelete<CR>', {
+  desc = '[B]uffer [c]lose',
+  silent = true,
+})
+
+-- List buffers (uses telescope if available)
+vim.keymap.set('n', '<leader>bb', '<leader><leader>', {
+  desc = '[B]uffer list',
+  remap = true,
+})
+
+-- ============================================
+-- WINDOW MANAGEMENT (Space + w + ...)
+-- Note: Using 'ww' prefix to avoid conflict with 'fw' (file write)
+-- ============================================
+
+-- Split vertically
+vim.keymap.set('n', '<leader>wv', ':vsplit<CR>', {
+  desc = '[W]indow split [v]ertical',
+  silent = true,
+})
+
+-- Split horizontally
+vim.keymap.set('n', '<leader>wh', ':split<CR>', {
+  desc = '[W]indow split [h]orizontal',
+  silent = true,
+})
+
+-- Equal window sizes
+vim.keymap.set('n', '<leader>w=', '<C-w>=', {
+  desc = '[W]indow equal sizes',
+  silent = true,
+})
+
+-- Maximize window
+vim.keymap.set('n', '<leader>wm', '<C-w>_<C-w>|', {
+  desc = '[W]indow [m]aximize',
+  silent = true,
+})
+
+-- Close window
+vim.keymap.set('n', '<leader>wc', '<C-w>c', {
+  desc = '[W]indow [c]lose',
+  silent = true,
+})
+
+-- Only this window (close all others)
+vim.keymap.set('n', '<leader>wo', '<C-w>o', {
+  desc = '[W]indow [o]nly (close others)',
+  silent = true,
+})
+
+-- Resize windows with Ctrl + arrows (not grouped, direct access)
+vim.keymap.set('n', '<C-Up>', ':resize +2<CR>', {
+  desc = 'Increase window height',
+  silent = true,
+})
+
+vim.keymap.set('n', '<C-Down>', ':resize -2<CR>', {
+  desc = 'Decrease window height',
+  silent = true,
+})
+
+vim.keymap.set('n', '<C-Right>', ':vertical resize +2<CR>', {
+  desc = 'Increase window width',
+  silent = true,
+})
+
+vim.keymap.set('n', '<C-Left>', ':vertical resize -2<CR>', {
+  desc = 'Decrease window width',
   silent = true,
 })
 
 -- ============================================
--- BETTER COPYING/PASTING
+-- YANK/PASTE (Space + y + ... / Space + p + ...)
 -- ============================================
 
--- Paste without yanking in visual mode
+-- Copy to system clipboard
+vim.keymap.set({ 'n', 'v' }, '<leader>yy', '"+y', {
+  desc = '[Y]ank to system clipboard',
+})
+
+-- Copy line to system clipboard
+vim.keymap.set('n', '<leader>yY', '"+yy', {
+  desc = '[Y]ank line to system',
+})
+
+-- Copy whole file to system clipboard
+vim.keymap.set('n', '<leader>ya', 'ggyG', {
+  desc = '[Y]ank [a]ll (file)',
+})
+
+-- Paste from system clipboard
+vim.keymap.set({ 'n', 'v' }, '<leader>pp', '"+p', {
+  desc = '[P]aste from system clipboard',
+})
+
+-- Paste from system clipboard before cursor
+vim.keymap.set({ 'n', 'v' }, '<leader>pP', '"+P', {
+  desc = '[P]aste before cursor',
+})
+
+-- Paste without yanking (in visual mode)
 vim.keymap.set('v', 'p', '"_dP', {
   desc = 'Paste without yanking',
 })
 
--- Copy to system clipboard (Space + y)
-vim.keymap.set({ 'n', 'v' }, '<leader>y', '"+y', {
-  desc = '[Y]ank to system clipboard',
-})
-
--- Paste from system clipboard (Space + p)
-vim.keymap.set({ 'n', 'v' }, '<leader>p', '"+p', {
-  desc = '[P]aste from system clipboard',
-})
-
--- Select all (Ctrl+a)
-vim.keymap.set('n', '<C-a>', 'ggVG', {
-  desc = 'Select all',
-})
-
 -- ============================================
--- WINDOW MANAGEMENT
+-- TOGGLES (Space + t + ...)
+-- Already has some from kickstart, adding more
 -- ============================================
 
--- Split window vertically (Space + |)
-vim.keymap.set('n', '<leader>|', ':vsplit<CR>', {
-  desc = 'Split vertically',
+-- Toggle line numbers
+vim.keymap.set('n', '<leader>tn', function()
+  vim.o.number = not vim.o.number
+  vim.notify('Line numbers: ' .. (vim.o.number and 'ON' or 'OFF'))
+end, {
+  desc = '[T]oggle line [n]umbers',
+})
+
+-- Toggle relative line numbers
+vim.keymap.set('n', '<leader>tN', function()
+  vim.o.relativenumber = not vim.o.relativenumber
+  vim.notify('Relative numbers: ' .. (vim.o.relativenumber and 'ON' or 'OFF'))
+end, {
+  desc = '[T]oggle [r]elative numbers',
+})
+
+-- Toggle wrap
+vim.keymap.set('n', '<leader>tw', function()
+  vim.o.wrap = not vim.o.wrap
+  vim.notify('Line wrap: ' .. (vim.o.wrap and 'ON' or 'OFF'))
+end, {
+  desc = '[T]oggle line [w]rap',
+})
+
+-- Toggle spell check
+vim.keymap.set('n', '<leader>ts', function()
+  vim.o.spell = not vim.o.spell
+  vim.notify('Spell check: ' .. (vim.o.spell and 'ON' or 'OFF'))
+end, {
+  desc = '[T]oggle [s]pell check',
+})
+
+-- Clear search highlight
+vim.keymap.set('n', '<leader>tc', ':nohlsearch<CR>', {
+  desc = '[T]oggle [c]lear highlight',
   silent = true,
 })
 
--- Split window horizontally (Space + -)
-vim.keymap.set('n', '<leader>-', ':split<CR>', {
-  desc = 'Split horizontally',
+-- ============================================
+-- LINE OPERATIONS (Space + l + ...)
+-- ============================================
+
+-- Duplicate line down
+vim.keymap.set('n', '<leader>ld', 'yyp', {
+  desc = '[L]ine [d]uplicate down',
+})
+
+-- Duplicate line up
+vim.keymap.set('n', '<leader>lu', 'yyP', {
+  desc = '[L]ine duplicate [u]p',
+})
+
+-- Duplicate selection (in visual mode)
+vim.keymap.set('v', '<leader>ld', 'y`>p', {
+  desc = '[L]ine [d]uplicate selection',
+})
+
+-- Delete line without yanking
+vim.keymap.set('n', '<leader>lx', '"_dd', {
+  desc = '[L]ine delete (no yank)',
+})
+
+-- Join lines without space
+vim.keymap.set('n', '<leader>lj', 'gJ', {
+  desc = '[L]ine [j]oin (no space)',
+})
+
+-- Insert blank line above
+vim.keymap.set('n', '<leader>lO', 'O<Esc>j', {
+  desc = '[L]ine insert above',
+})
+
+-- Insert blank line below
+vim.keymap.set('n', '<leader>lo', 'o<Esc>k', {
+  desc = '[L]ine insert below',
+})
+
+-- Select all
+vim.keymap.set('n', '<leader>la', 'ggVG', {
+  desc = '[L]ine select [a]ll',
+})
+
+-- ============================================
+-- QUICKFIX (Space + q + ...)
+-- q already used by kickstart for diagnostic quickfix
+-- ============================================
+
+-- Next quickfix
+vim.keymap.set('n', ']q', ':cnext<CR>zz', {
+  desc = 'Next quickfix',
   silent = true,
 })
 
--- Equal window sizes (Space + =)
-vim.keymap.set('n', '<leader>=', '<C-w>=', {
-  desc = 'Equal window sizes',
+-- Previous quickfix
+vim.keymap.set('n', '[q', ':cprev<CR>zz', {
+  desc = 'Previous quickfix',
   silent = true,
 })
 
--- Maximize current window (Space + m)
-vim.keymap.set('n', '<leader>m', '<C-w>|<C-w>_', {
-  desc = '[M]aximize window',
+-- Open quickfix list
+vim.keymap.set('n', '<leader>qo', ':copen<CR>', {
+  desc = '[Q]uickfix [o]pen',
+  silent = true,
+})
+
+-- Close quickfix list
+vim.keymap.set('n', '<leader>qc', ':cclose<CR>', {
+  desc = '[Q]uickfix [c]lose',
   silent = true,
 })
 
 -- ============================================
--- SEARCH IMPROVEMENTS
+-- MOVEMENT ENHANCEMENTS (Direct keys - no prefix)
 -- ============================================
+
+-- Better line start/end
+vim.keymap.set({ 'n', 'v' }, 'H', '^', {
+  desc = 'Go to line start',
+})
+
+vim.keymap.set({ 'n', 'v' }, 'L', 'g_', {
+  desc = 'Go to line end',
+})
 
 -- Keep cursor centered when searching
-vim.keymap.set('n', 'n', 'nzzzv', { desc = 'Next search result (centered)' })
-vim.keymap.set('n', 'N', 'Nzzzv', { desc = 'Previous search result (centered)' })
+vim.keymap.set('n', 'n', 'nzzzv', { desc = 'Next search (centered)' })
+vim.keymap.set('n', 'N', 'Nzzzv', { desc = 'Prev search (centered)' })
 
 -- Keep cursor centered when jumping
 vim.keymap.set('n', '<C-d>', '<C-d>zz', { desc = 'Half page down (centered)' })
 vim.keymap.set('n', '<C-u>', '<C-u>zz', { desc = 'Half page up (centered)' })
 
--- ============================================
--- QUICK ACTIONS
--- ============================================
-
--- Source current file (reload config)
-vim.keymap.set('n', '<leader><CR>', ':source %<CR>', {
-  desc = 'Source current file',
+-- Move lines up/down with Alt
+vim.keymap.set('n', '<A-j>', ':move .+1<CR>==', {
+  desc = 'Move line down',
   silent = true,
 })
 
--- Format current file (Space + F for uppercase F)
-vim.keymap.set('n', '<leader>F', function()
-  vim.lsp.buf.format { async = true }
-end, {
-  desc = '[F]ormat with LSP',
+vim.keymap.set('n', '<A-k>', ':move .-2<CR>==', {
+  desc = 'Move line up',
+  silent = true,
 })
 
--- Toggle line numbers (Space + n)
-vim.keymap.set('n', '<leader>n', function()
-  vim.o.number = not vim.o.number
-  vim.notify('Line numbers: ' .. (vim.o.number and 'ON' or 'OFF'))
-end, {
-  desc = 'Toggle line [n]umbers',
+vim.keymap.set('v', '<A-j>', ":move '>+1<CR>gv=gv", {
+  desc = 'Move selection down',
+  silent = true,
 })
 
--- Toggle relative line numbers (Space + N)
-vim.keymap.set('n', '<leader>N', function()
-  vim.o.relativenumber = not vim.o.relativenumber
-  vim.notify('Relative numbers: ' .. (vim.o.relativenumber and 'ON' or 'OFF'))
-end, {
-  desc = 'Toggle relative [N]umbers',
+vim.keymap.set('v', '<A-k>', ":move '<-2<CR>gv=gv", {
+  desc = 'Move selection up',
+  silent = true,
 })
 
--- Toggle wrap (Space + z)
-vim.keymap.set('n', '<leader>z', function()
-  vim.o.wrap = not vim.o.wrap
-  vim.notify('Line wrap: ' .. (vim.o.wrap and 'ON' or 'OFF'))
-end, {
-  desc = 'Toggle line wrap',
-})
+-- Stay in visual mode when indenting
+vim.keymap.set('v', '<', '<gv', { desc = 'Indent left' })
+vim.keymap.set('v', '>', '>gv', { desc = 'Indent right' })
 
--- ============================================
--- QUICK FIX LIST NAVIGATION
--- ============================================
-
--- Next error/warning (]d)
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, {
-  desc = 'Next diagnostic',
-})
-
--- Previous error/warning ([d)
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, {
-  desc = 'Previous diagnostic',
-})
-
--- ============================================
--- BETTER ESC (for insert mode)
--- ============================================
-
--- jk or kj to exit insert mode (fast typing!)
+-- Better insert mode exits
 vim.keymap.set('i', 'jk', '<Esc>', { desc = 'Exit insert mode' })
 vim.keymap.set('i', 'kj', '<Esc>', { desc = 'Exit insert mode' })
 
 -- ============================================
--- DUPLICATE LINE/SELECTION
+-- FORMAT (Space + F - LSP format)
 -- ============================================
 
--- Duplicate line (Space + d)
-vim.keymap.set('n', '<leader>d', 'yyp', {
-  desc = '[D]uplicate line',
-})
-
--- Duplicate selection (Space + d in visual)
-vim.keymap.set('v', '<leader>d', 'y`>p', {
-  desc = '[D]uplicate selection',
-})
-
--- ============================================
--- DELETE WITHOUT YANKING
--- ============================================
-
--- Delete to black hole register (Space + D)
-vim.keymap.set({ 'n', 'v' }, '<leader>D', '"_d', {
-  desc = '[D]elete without yanking',
-})
-
--- ============================================
--- CLEAR SEARCH HIGHLIGHT
--- ============================================
-
--- Already exists as <Esc> but adding Space + h for clarity
-vim.keymap.set('n', '<leader>nh', ':nohlsearch<CR>', {
-  desc = '[N]o [H]ighlight',
-  silent = true,
+vim.keymap.set('n', '<leader>F', function()
+  vim.lsp.buf.format { async = true }
+end, {
+  desc = '[F]ormat with LSP',
 })
 
 return {}
